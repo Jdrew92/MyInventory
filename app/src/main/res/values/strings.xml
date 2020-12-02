@@ -21,4 +21,7 @@
     <string name="barcode_empty_error">Type in barcode</string>
     <string name="price_empty_error">Type in price for sale</string>
     <string name="add_success">Product Added Successfully!</string>
+    <string name="delete_product">Delete Product</string>
+    <string name="add_stock">Add to Stock</string>
+    <string name="remove_stock">Remove from Stock</string>
 </resources>

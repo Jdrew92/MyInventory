@@ -56,6 +56,16 @@ public class MainActivity extends AppCompatActivity implements ProductAdapter.On
 
     @Override
     public void onProductClick(Product p) {
+        Intent intent;
+        Bundle bundle;
+        bundle = new Bundle();
+        bundle.putString("name", p.getName());
+        bundle.putString("barcode", p.getBarcode());
+        bundle.putString("price", p.getPrice());
+        bundle.putInt("stock", p.getStock());
 
+        intent = new Intent(MainActivity.this, ProductDetail.class);
+        intent.putExtra("data", bundle);
+        startActivity(intent);
     }
 }
