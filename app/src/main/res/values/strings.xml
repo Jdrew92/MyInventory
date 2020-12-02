@@ -9,12 +9,16 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="product_name">PRODUCT NAME</string>
-    <string name="barcode">BARCODE</string>
-    <string name="price_for_sale">PRICE FOR SALE</string>
-    <string name="first_stock">FIRST STOCK</string>
+    <string name="product_name">Product Name</string>
+    <string name="barcode">Barcode</string>
+    <string name="price_for_sale">Price for Sale</string>
+    <string name="first_stock">First Stock</string>
     <string name="add">ADD</string>
     <string name="clear">CLEAR</string>
-    <string name="ellipsis"></string>
-    <string name="in_stock">IN STOCK</string>
+    <string name="in_stock">In Stock</string>
+    <string name="in_stock_ddot">In Stock:</string>
+    <string name="name_empty_error">Type in product name</string>
+    <string name="barcode_empty_error">Type in barcode</string>
+    <string name="price_empty_error">Type in price for sale</string>
+    <string name="add_success">Product Added Successfully!</string>
 </resources>
