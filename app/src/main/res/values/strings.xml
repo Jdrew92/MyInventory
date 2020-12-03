@@ -24,4 +24,8 @@
     <string name="delete_product">Delete Product</string>
     <string name="add_stock">Add to Stock</string>
     <string name="remove_stock">Remove from Stock</string>
+    <string name="msg_delete">Are you sure you want to delete this product from your inventory?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="barcode_repeated">This barcode exists!</string>
 </resources>

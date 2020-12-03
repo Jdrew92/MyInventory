@@ -4,13 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -22,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements ProductAdapter.On
     private RecyclerView list;
     private LinearLayoutManager llm;
     private ArrayList<Product> products;
+    private DatabaseReference databaseReference;
+    private static String db = "Products";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +39,8 @@ public class MainActivity extends AppCompatActivity implements ProductAdapter.On
 
         FloatingActionButton fab = findViewById(R.id.fab);
         list = findViewById(R.id.lstProducts);
-        if (Data.getProducts().isEmpty()){
-            Log.i("TAG", "No existe");
-            products = new ArrayList<>();
-        } else {
-            Log.i("TAG", "Sí existe");
-            products = Data.getProducts();
-        }
+
+        products = new ArrayList<>();
         llm = new LinearLayoutManager(this);
         adapter = new ProductAdapter(products, this);
 
@@ -46,7 +48,26 @@ public class MainActivity extends AppCompatActivity implements ProductAdapter.On
         list.setLayoutManager(llm);
         list.setAdapter(adapter);
 
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child(db).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                products.clear();
+                if (snapshot.exists()){
+                    for (DataSnapshot snap : snapshot.getChildren()){
+                        Product p = snap.getValue(Product.class);
+                        products.add(p);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+                Data.setProducts(products);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void add(View v){
@@ -59,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements ProductAdapter.On
         Intent intent;
         Bundle bundle;
         bundle = new Bundle();
+        bundle.putString("id", p.getId());
         bundle.putString("name", p.getName());
         bundle.putString("barcode", p.getBarcode());
         bundle.putString("price", p.getPrice());

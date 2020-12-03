@@ -34,6 +34,7 @@
             android:id="@+id/fabDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="delete"
             android:src="@android:drawable/ic_menu_delete"
             app:fab_colorNormal="@color/design_default_color_error"
             app:fab_label="@string/delete_product"
@@ -43,6 +44,7 @@
             android:id="@+id/fabRemove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="removeFromStock"
             android:src="@drawable/ic_remove"
             app:fab_colorNormal="@color/sky_blue"
             app:fab_label="@string/remove_stock"
@@ -52,6 +54,7 @@
             android:id="@+id/fabAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="addToStock"
             android:src="@drawable/fab_add"
             app:fab_colorNormal="@color/sky_blue"
             app:fab_label="@string/add_stock"
@@ -64,6 +67,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/lblProductName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
             android:layout_width="169dp"
@@ -74,40 +86,24 @@
             android:src="@android:drawable/ic_menu_gallery" />
 
         <TableLayout
-            android:id="@+id/tblDetail"
-            android:layout_width="match_parent"
+            android:id="@+id/tblProductDetail"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:stretchColumns="*">
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="20sp">
+                android:layout_gravity="center|center_horizontal"
+                android:layout_marginBottom="20sp"
+                android:gravity="center|center_horizontal">
 
                 <TextView
-                    android:id="@+id/lblProductName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/product_name"
-                    android:textAlignment="center"
-                    android:textSize="24sp" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="20sp">
-
-                <TextView
-                    android:id="@+id/lblBCodeTitle"
+                    android:id="@+id/lblBarcodeTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
                     android:text="@string/barcode"
-                    android:textAlignment="center"
-                    android:textAllCaps="true"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -115,26 +111,24 @@
                     android:id="@+id/lblProductBCode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
                     android:text="TextView"
-                    android:textAlignment="center"
                     android:textSize="18sp" />
-
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="20sp">
+                android:layout_gravity="center|center_horizontal"
+                android:layout_marginBottom="20sp"
+                android:gravity="center|center_horizontal">
 
                 <TextView
-                    android:id="@+id/lblPriceTitle"
+                    android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
                     android:text="@string/price_for_sale"
-                    android:textAlignment="center"
-                    android:textAllCaps="true"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -142,25 +136,24 @@
                     android:id="@+id/lblProductPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
                     android:text="TextView"
-                    android:textAlignment="center"
                     android:textSize="18sp" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="20sp">
+                android:layout_gravity="center|center_horizontal"
+                android:layout_marginBottom="20sp"
+                android:gravity="center|center_horizontal">
 
                 <TextView
-                    android:id="@+id/lblStockTitle"
+                    android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
                     android:text="@string/in_stock"
-                    android:textAlignment="center"
-                    android:textAllCaps="true"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -168,9 +161,8 @@
                     android:id="@+id/lblProductStock"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
                     android:text="TextView"
-                    android:textAlignment="center"
                     android:textSize="18sp" />
 
             </TableRow>
