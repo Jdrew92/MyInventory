@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,16 +18,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class AddProduct extends AppCompatActivity {
 
     private EditText name, barcode, price, stock;
-    private DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+    private CircleImageView img;
+    private DatabaseReference reference;
+    private StorageReference storageReference;
     private String db = "Products";
     private InputMethodManager im;
+    private Uri uri;
     private DecimalFormat df = new DecimalFormat("#,###.##");
 
     @Override
@@ -38,7 +47,10 @@ public class AddProduct extends AppCompatActivity {
         barcode = findViewById(R.id.txtBarcode);
         price = findViewById(R.id.txtPrice);
         stock = findViewById(R.id.txtFirstStock);
+        img = findViewById(R.id.imgSelectImage);
 
+        reference = FirebaseDatabase.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
     }
 
@@ -85,6 +97,10 @@ public class AddProduct extends AppCompatActivity {
             stock.requestFocus();
             return false;
         }
+        if (uri == null){
+            Snackbar.make((View) name, getText(R.string.select_image), Snackbar.LENGTH_LONG).show();
+            return false;
+        }
         return true;
     }
 
@@ -103,8 +119,10 @@ public class AddProduct extends AppCompatActivity {
                     if (!barcodes.contains(p.getBarcode())){
                         Log.i("TAG", "onDataChange: No lo tiene ");
                         p.save();
+                        uploadImg(p.getId());
                         clear();
                         Snackbar.make(v, R.string.add_success, Snackbar.LENGTH_LONG).show();
+                        uri = null;
                     } else {
                         Log.i("TAG", "onDataChange: Si lo tiene ");
                         barcode.setError(getString(R.string.barcode_repeated));
@@ -113,8 +131,10 @@ public class AddProduct extends AppCompatActivity {
                 } else {
                     Log.i("TAG", "onDataChange: Está vacío");
                     p.save();
+                    uploadImg(p.getId());
                     clear();
                     Snackbar.make(v, R.string.add_success, Snackbar.LENGTH_LONG).show();
+                    uri = null;
                 }
             }
 
@@ -134,6 +154,7 @@ public class AddProduct extends AppCompatActivity {
         barcode.setText("");
         price.setText("");
         stock.setText("");
+        img.setImageResource(android.R.drawable.ic_menu_gallery);
         name.requestFocus();
     }
 
@@ -141,5 +162,27 @@ public class AddProduct extends AppCompatActivity {
         finish();
         Intent i = new Intent(AddProduct.this, MainActivity.class);
         startActivity(i);
+    }
+
+    public void selectImage(View v){
+        Intent in = new Intent();
+        in.setType("image/*");
+        in.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(in,getString(R.string.select_image)), 1);
+    }
+
+    public void uploadImg(String id){
+        StorageReference child = storageReference.child(id);
+        UploadTask uploadTask = child.putFile(uri);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1){
+            uri = data.getData();
+            if (uri != null){
+                img.setImageURI(uri);
+            }
+        }
     }
 }

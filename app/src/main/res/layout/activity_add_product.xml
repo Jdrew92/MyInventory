@@ -8,13 +8,14 @@
     tools:context=".AddProduct">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
+        android:id="@+id/imgSelectImage"
         android:layout_width="169dp"
         android:layout_height="171dp"
         android:layout_gravity="center"
         android:layout_marginTop="20sp"
         android:layout_marginBottom="40sp"
-        android:src="@android:drawable/ic_menu_gallery"/>
+        android:onClick="selectImage"
+        android:src="@android:drawable/ic_menu_gallery" />
 
     <EditText
         android:id="@+id/txtProductName"

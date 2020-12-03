@@ -12,15 +12,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProductDetail extends AppCompatActivity {
 
     private TextView name, barcode, price, stock;
     private Bundle bundle;
     private Intent intent;
+    private CircleImageView img;
     private Product p;
+    private StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +42,9 @@ public class ProductDetail extends AppCompatActivity {
         barcode = findViewById(R.id.lblProductBCode);
         price = findViewById(R.id.lblProductPrice);
         stock = findViewById(R.id.lblProductStock);
+        img = findViewById(R.id.imgProductImg);
+
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         intent = getIntent();
         bundle = intent.getBundleExtra("data");
@@ -51,6 +62,12 @@ public class ProductDetail extends AppCompatActivity {
         barcode.setText(bcode);
         price.setText("$"+prc);
         stock.setText(""+stck);
+        storageReference.child(id).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(img);
+            }
+        });
 
     }
 
