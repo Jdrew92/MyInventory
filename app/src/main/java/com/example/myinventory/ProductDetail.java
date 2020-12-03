@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -103,42 +105,78 @@ public class ProductDetail extends AppCompatActivity {
     }
 
     public void addToStock(View v){
-        EditText addstock = new EditText(this);
+        EditText addStock = new EditText(this);
+        addStock.setInputType(InputType.TYPE_CLASS_NUMBER);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.add_stock);
-        builder.setMessage("How many products do you want to add?");
-        builder.setView(addstock);
+        builder.setMessage(R.string.add_msg);
+        builder.setView(addStock);
         builder.setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-               int newStock = Integer.parseInt(stock.getText().toString()) + Integer.parseInt(addstock.getText().toString());
-               p.updateStock(newStock);
-               stock.setText(""+newStock);
-               Snackbar.make(v, "Product stock updated successfully!", Snackbar.LENGTH_LONG).show();
+
             }
         });
-        builder.setNegativeButton("Cancel", null);
+        builder.setNegativeButton(R.string.cancel, null);
+
         AlertDialog dialog = builder.create();
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean closeDialog = false;
+                if (!addStock.getText().toString().isEmpty()){
+                    int newStock = Integer.parseInt(stock.getText().toString()) + Integer.parseInt(addStock.getText().toString());
+                    p.updateStock(newStock);
+                    stock.setText(""+newStock);
+                    closeDialog = true;
+                    Snackbar.make(v, R.string.updated_msg, Snackbar.LENGTH_LONG).show();
+                } else {
+                    addStock.setError(getString(R.string.number_msg));
+                    closeDialog = false;
+                }
+                if (closeDialog == true){
+                    dialog.dismiss();
+                }
+            }
+        });
     }
 
     public void removeFromStock(View v){
-        EditText addstock = new EditText(this);
+        EditText removeStock = new EditText(this);
+        removeStock.setInputType(InputType.TYPE_CLASS_NUMBER);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.add_stock);
-        builder.setMessage("How many products do you want to add?");
-        builder.setView(addstock);
-        builder.setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.remove_msg);
+        builder.setView(removeStock);
+        builder.setPositiveButton(R.string.remove, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                int newStock = Integer.parseInt(stock.getText().toString()) - Integer.parseInt(addstock.getText().toString());
-                p.updateStock(newStock);
-                stock.setText(""+newStock);
-                Snackbar.make(v, "Product stock updated successfully!", Snackbar.LENGTH_LONG).show();
+
             }
         });
-        builder.setNegativeButton("Cancel", null);
+        builder.setNegativeButton(R.string.cancel, null);
         AlertDialog dialog = builder.create();
         dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean closeDialog = false;
+                if (!removeStock.getText().toString().isEmpty()) {
+                    int newStock = Integer.parseInt(stock.getText().toString()) - Integer.parseInt(removeStock.getText().toString());
+                    p.updateStock(newStock);
+                    stock.setText("" + newStock);
+                    Snackbar.make(v, R.string.updated_msg, Snackbar.LENGTH_LONG).show();
+                    closeDialog = true;
+                } else {
+                    removeStock.setError(getString(R.string.number_msg));
+                    closeDialog = false;
+                }
+                if (closeDialog == true){
+                    dialog.dismiss();
+                }
+            }
+        });
     }
+
 }

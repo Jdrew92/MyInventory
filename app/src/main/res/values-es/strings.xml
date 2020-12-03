@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mi Inventario</string>
+    <string name="product_name">Nombre el producto</string>
+    <string name="barcode">Código de barras</string>
+    <string name="price_for_sale">Precio a la venta</string>
+    <string name="first_stock">Primer Stock</string>
+    <string name="add">AGREGAR</string>
+    <string name="clear">LIMPIAR</string>
+    <string name="in_stock">En Stock</string>
+    <string name="in_stock_ddot">En Stock:</string>
+    <string name="name_empty_error">Digíte el nombre del producto</string>
+    <string name="barcode_empty_error">Digíte el código de barras</string>
+    <string name="price_empty_error">Digíte el precio a la venta</string>
+    <string name="add_success">¡Producto Agregado Exitosamente!</string>
+    <string name="delete_product">Eliminar Producto</string>
+    <string name="add_stock">Añadir a Stock</string>
+    <string name="remove_stock">Remover del Stock</string>
+    <string name="msg_delete">¿Está seguro(a) que quiere eliminar este producto de su inventario?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="barcode_repeated">¡Este código de barras existe!</string>
+    <string name="select_image">Seleccione una imagen para el producto</string>
+    <string name="add_msg">¿Cuántos productos desea agregar al stock?</string>
+    <string name="updated_msg">¡El Stock del producto se actualizó exitosamente!</string>
+    <string name="remove_msg">¿Cuántos productos desea remover del stock?</string>
+    <string name="cancel">Cancelar</string>
+    <string name="remove">Remover</string>
+    <string name="number_msg">Digíte un número</string>
+</resources>
